@@ -12,7 +12,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
 
     await update.message.reply_text(
-        "👋 Привет! Я — LlamaAIhubBot 🦙\nРаботаю на Fireworks AI (Llama 3).\nВыбери действие ниже:",
+        "👋 Привет! Я — LlamaAIhubBot 🦙\nРаботаю с памятью!",
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
