@@ -4,6 +4,10 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, Cal
 from config import TG_TOKEN
 from handlers import start, button_handler, on_message
 
+if not TG_TOKEN:
+    print("ERROR: TG_TOKEN is not set. Set environment variable TG_TOKEN before running the bot.")
+    raise SystemExit(1)
+
 async def run_bot():
     """Запускает Telegram бота"""
     app = ApplicationBuilder().token(TG_TOKEN).build()

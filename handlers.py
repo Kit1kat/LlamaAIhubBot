@@ -1,5 +1,6 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
+from telegram.constants import ChatAction
 from ai import llama_answer
 from memory import add_to_memory, load_memory, clear_memory, get_memory_text
 
@@ -43,7 +44,11 @@ async def on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_text = update.message.text
     
     # Показываем что бот печатает
-    await update.message.chat.send_action("typing")
+    try:
+        await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
+    except Exception:
+        # не критично, продолжаем
+        pass
 
     # Сохраняем в историю
     history = context.user_data.get("history", [])

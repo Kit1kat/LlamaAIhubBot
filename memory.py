@@ -19,16 +19,25 @@ def save_memory(memory):
             json.dump(memory, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"Ошибка при сохранении памяти: {e}")
+        # Попытаться сохранить в /tmp (Heroku может использовать временную файловую систему)
+        try:
+            tmp_path = os.path.join('/tmp', MEMORY_FILE)
+            with open(tmp_path, 'w', encoding='utf-8') as f:
+                json.dump(memory, f, ensure_ascii=False, indent=2)
+            print(f"Память сохранена во временный файл: {tmp_path}")
+        except Exception as e2:
+            print(f"Не удалось сохранить память во временный файл: {e2}")
+
 
 def add_to_memory(message):
     """Добавляет сообщение в память"""
     memory = load_memory()
     memory.append(message)
-    
+
     # Удаляем старые сообщения если превышен лимит
     if len(memory) > MAX_MEMORY_MESSAGES:
         memory = memory[-MAX_MEMORY_MESSAGES:]
-    
+
     save_memory(memory)
 
 def clear_memory():
